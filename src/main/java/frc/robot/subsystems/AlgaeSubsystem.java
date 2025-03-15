@@ -29,56 +29,54 @@ import frc.robot.Constants.SimulationRobotConstants;
 public class AlgaeSubsystem extends SubsystemBase {
   // Initialize arm SPARK. We will use MAXMotion position control for the arm, so we also need to
   // initialize the closed loop controller and encoder.
-  private SparkFlex armMotor =
-      new SparkFlex(AlgaeSubsystemConstants.kPivotMotorCanId, MotorType.kBrushless);
+  private SparkFlex armMotor = new SparkFlex(AlgaeSubsystemConstants.kPivotMotorCanId, MotorType.kBrushless);
   private SparkClosedLoopController armController = armMotor.getClosedLoopController();
   private RelativeEncoder armEncoder = armMotor.getEncoder();
 
   // Initialize intake SPARK. We will use open loop control for this so we don't need a closed loop
   // controller like above.
-  private SparkFlex intakeMotor =
-      new SparkFlex(AlgaeSubsystemConstants.kIntakeMotorCanId, MotorType.kBrushless);
+  private SparkFlex intakeMotor = new SparkFlex(AlgaeSubsystemConstants.kIntakeMotorCanId, MotorType.kBrushless);
 
   // Member variables for subsystem state management
   private boolean stowWhenIdle = true;
   private boolean wasReset = false;
 
   // Simulation setup and variables
-  private DCMotor armMotorModel = DCMotor.getNeoVortex(1);
-  private SparkFlexSim armMotorSim;
-  private final SingleJointedArmSim m_intakeSim =
-      new SingleJointedArmSim(
-          armMotorModel,
-          SimulationRobotConstants.kIntakeReduction,
-          SingleJointedArmSim.estimateMOI(
-              SimulationRobotConstants.kIntakeLength, SimulationRobotConstants.kIntakeMass),
-          SimulationRobotConstants.kIntakeLength,
-          SimulationRobotConstants.kIntakeMinAngleRads,
-          SimulationRobotConstants.kIntakeMaxAngleRads,
-          true,
-          SimulationRobotConstants.kIntakeMinAngleRads,
-          0.0,
-          0.0);
+  // private DCMotor armMotorModel = DCMotor.getNeoVortex(1);
+  // private SparkFlexSim armMotorSim;
+  // private final SingleJointedArmSim m_intakeSim =
+  //     new SingleJointedArmSim(
+  //         armMotorModel,
+  //         SimulationRobotConstants.kIntakeReduction,
+  //         SingleJointedArmSim.estimateMOI(
+  //             SimulationRobotConstants.kIntakeLength, SimulationRobotConstants.kIntakeMass),
+  //         SimulationRobotConstants.kIntakeLength,
+  //         SimulationRobotConstants.kIntakeMinAngleRads,
+  //         SimulationRobotConstants.kIntakeMaxAngleRads,
+  //         true,
+  //         SimulationRobotConstants.kIntakeMinAngleRads,
+  //         0.0,
+  //         0.0);
 
-  // Mechanism2d setup for subsytem
-  private final Mechanism2d m_mech2d = new Mechanism2d(50, 50);
-  private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Ball Intake Root", 28, 3);
-  private final MechanismLigament2d intakePivotMechanism =
-      m_mech2dRoot.append(
-          new MechanismLigament2d(
-              "Intake Pivot",
-              SimulationRobotConstants.kIntakeShortBarLength
-                  * SimulationRobotConstants.kPixelsPerMeter,
-              Units.radiansToDegrees(SimulationRobotConstants.kIntakeMinAngleRads)));
+  // // Mechanism2d setup for subsytem
+  // private final Mechanism2d m_mech2d = new Mechanism2d(50, 50);
+  // private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Ball Intake Root", 28, 3);
+  // private final MechanismLigament2d intakePivotMechanism =
+  //     m_mech2dRoot.append(
+  //         new MechanismLigament2d(
+  //             "Intake Pivot",
+  //             SimulationRobotConstants.kIntakeShortBarLength
+  //                 * SimulationRobotConstants.kPixelsPerMeter,
+  //             Units.radiansToDegrees(SimulationRobotConstants.kIntakeMinAngleRads)));
 
-  @SuppressWarnings("unused")
-  private final MechanismLigament2d intakePivotSecondMechanism =
-      intakePivotMechanism.append(
-          new MechanismLigament2d(
-              "Intake Pivot Second Bar",
-              SimulationRobotConstants.kIntakeLongBarLength
-                  * SimulationRobotConstants.kPixelsPerMeter,
-              Units.radiansToDegrees(SimulationRobotConstants.kIntakeBarAngleRads)));
+  // @SuppressWarnings("unused")
+  // private final MechanismLigament2d intakePivotSecondMechanism =
+  //     intakePivotMechanism.append(
+  //         new MechanismLigament2d(
+  //             "Intake Pivot Second Bar",
+  //             SimulationRobotConstants.kIntakeLongBarLength
+  //                 * SimulationRobotConstants.kPixelsPerMeter,
+  //             Units.radiansToDegrees(SimulationRobotConstants.kIntakeBarAngleRads)));
 
   public AlgaeSubsystem() {
     /*
