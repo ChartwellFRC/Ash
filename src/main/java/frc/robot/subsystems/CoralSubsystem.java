@@ -159,16 +159,16 @@ public class CoralSubsystem extends SubsystemBase {
   }
 
   /** Zero the elevator encoder when the limit switch is pressed. */
-  private void zeroElevatorOnLimitSwitch() {
-    if (!wasResetByLimit && elevatorMotor.getReverseLimitSwitch().isPressed()) {
-      // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
-      // prevent constant zeroing while pressed
-      elevatorEncoder.setPosition(0);
-      wasResetByLimit = true;
-    } else if (!elevatorMotor.getReverseLimitSwitch().isPressed()) {
-      wasResetByLimit = false;
-    }
-  }
+//   private void zeroElevatorOnLimitSwitch() {
+//     if (!wasResetByLimit && elevatorMotor.getReverseLimitSwitch().isPressed()) {
+//       // Zero the encoder only when the limit switch is switches from "unpressed" to "pressed" to
+//       // prevent constant zeroing while pressed
+//       elevatorEncoder.setPosition(0);
+//       wasResetByLimit = true;
+//     } else if (!elevatorMotor.getReverseLimitSwitch().isPressed()) {
+//       wasResetByLimit = false;
+//     }
+//   }
 
   /** Zero the arm and elevator encoders when the user button is pressed on the roboRIO. */
   private void zeroOnUserButton() {
@@ -252,56 +252,56 @@ public class CoralSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Coral/Intake/Applied Output", intakeMotor.getAppliedOutput());
 
     // Update mechanism2d
-    m_elevatorMech2d.setLength(
-        SimulationRobotConstants.kPixelsPerMeter * SimulationRobotConstants.kMinElevatorHeightMeters
-            + SimulationRobotConstants.kPixelsPerMeter
-                * (elevatorEncoder.getPosition() / SimulationRobotConstants.kElevatorGearing)
-                * (SimulationRobotConstants.kElevatorDrumRadius * 2.0 * Math.PI));
-    m_armMech2d.setAngle(
-        180
-            - ( // mirror the angles so they display in the correct direction
-            Units.radiansToDegrees(SimulationRobotConstants.kMinAngleRads)
-                + Units.rotationsToDegrees(
-                    armEncoder.getPosition() / SimulationRobotConstants.kArmReduction))
-            - 90 // subtract 90 degrees to account for the elevator
-        );
+    // m_elevatorMech2d.setLength(
+    //     SimulationRobotConstants.kPixelsPerMeter * SimulationRobotConstants.kMinElevatorHeightMeters
+    //         + SimulationRobotConstants.kPixelsPerMeter
+    //             * (elevatorEncoder.getPosition() / SimulationRobotConstants.kElevatorGearing)
+    //             * (SimulationRobotConstants.kElevatorDrumRadius * 2.0 * Math.PI));
+    // m_armMech2d.setAngle(
+    //     180
+    //         - ( // mirror the angles so they display in the correct direction
+    //         Units.radiansToDegrees(SimulationRobotConstants.kMinAngleRads)
+    //             + Units.rotationsToDegrees(
+    //                 armEncoder.getPosition() / SimulationRobotConstants.kArmReduction))
+    //         - 90 // subtract 90 degrees to account for the elevator
+    //     );
   }
 
   /** Get the current drawn by each simulation physics model */
-  public double getSimulationCurrentDraw() {
-    return m_elevatorSim.getCurrentDrawAmps() + m_armSim.getCurrentDrawAmps();
-  }
+//   public double getSimulationCurrentDraw() {
+//     return m_elevatorSim.getCurrentDrawAmps() + m_armSim.getCurrentDrawAmps();
+//   }
 
-  @Override
-  public void simulationPeriodic() {
-    // In this method, we update our simulation of what our elevator is doing
-    // First, we set our "inputs" (voltages)
-    m_elevatorSim.setInput(elevatorMotor.getAppliedOutput() * RobotController.getBatteryVoltage());
-    m_armSim.setInput(armMotor.getAppliedOutput() * RobotController.getBatteryVoltage());
+//   @Override
+//   public void simulationPeriodic() {
+//     // In this method, we update our simulation of what our elevator is doing
+//     // First, we set our "inputs" (voltages)
+//     m_elevatorSim.setInput(elevatorMotor.getAppliedOutput() * RobotController.getBatteryVoltage());
+//     m_armSim.setInput(armMotor.getAppliedOutput() * RobotController.getBatteryVoltage());
 
-    // Update sim limit switch
-    elevatorLimitSwitchSim.setPressed(m_elevatorSim.getPositionMeters() == 0);
+//     // Update sim limit switch
+//     elevatorLimitSwitchSim.setPressed(m_elevatorSim.getPositionMeters() == 0);
 
-    // Next, we update it. The standard loop time is 20ms.
-    m_elevatorSim.update(0.020);
-    m_armSim.update(0.020);
+//     // Next, we update it. The standard loop time is 20ms.
+//     m_elevatorSim.update(0.020);
+//     m_armSim.update(0.020);
 
-    // Iterate the elevator and arm SPARK simulations
-    elevatorMotorSim.iterate(
-        ((m_elevatorSim.getVelocityMetersPerSecond()
-                    / (SimulationRobotConstants.kElevatorDrumRadius * 2.0 * Math.PI))
-                * SimulationRobotConstants.kElevatorGearing)
-            * 60.0,
-        RobotController.getBatteryVoltage(),
-        0.02);
-    armMotorSim.iterate(
-        Units.radiansPerSecondToRotationsPerMinute(
-            m_armSim.getVelocityRadPerSec() * SimulationRobotConstants.kArmReduction),
-        RobotController.getBatteryVoltage(),
-        0.02);
+//     // Iterate the elevator and arm SPARK simulations
+//     elevatorMotorSim.iterate(
+//         ((m_elevatorSim.getVelocityMetersPerSecond()
+//                     / (SimulationRobotConstants.kElevatorDrumRadius * 2.0 * Math.PI))
+//                 * SimulationRobotConstants.kElevatorGearing)
+//             * 60.0,
+//         RobotController.getBatteryVoltage(),
+//         0.02);
+//     armMotorSim.iterate(
+//         Units.radiansPerSecondToRotationsPerMinute(
+//             m_armSim.getVelocityRadPerSec() * SimulationRobotConstants.kArmReduction),
+//         RobotController.getBatteryVoltage(),
+//         0.02);
 
-    // SimBattery is updated in Robot.java
-  }
+    //     // SimBattery is updated in Robot.java
+    //   }
 }// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
