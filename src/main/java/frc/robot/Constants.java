@@ -20,10 +20,12 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class CoralSubsystemConstants {
+    // CAN ID constants. Do not mess with this.
     public static final int kElevatorMotorCanId = 14;
     public static final int kArmMotorCanId = 12;
     public static final int kIntakeMotorCanId = 13;
 
+    // Calibrating constants for the elevator up and down motions. In motor rotations.
     public static final class ElevatorSetpoints {
       public static final int kFeederStation = 0;
       public static final int kLevel1 = 0;
@@ -31,7 +33,8 @@ public final class Constants {
       public static final int kLevel3 = 100;
       public static final int kLevel4 = 150;
     }
-
+    
+    // Calibrating constants for the coral intake arm. In motor rotations.
     public static final class ArmSetpoints {
       public static final double kFeederStation = 33;
       public static final double kLevel1 = 0;
@@ -39,7 +42,8 @@ public final class Constants {
       public static final double kLevel3 = 2;
       public static final double kLevel4 = 19;
     }
-
+    
+    // Speed constants for the coral intake motors. In percentage of motor power.
     public static final class IntakeSetpoints {
       public static final double kForward = 0.5;
       public static final double kReverse = -0.5;
@@ -47,6 +51,7 @@ public final class Constants {
   }
 
   public static final class AlgaeSubsystemConstants {
+    // CAN ID constants. Do not mess with this.
     public static final int kIntakeMotorCanId = 10;
     public static final int kPivotMotorCanId = 11;
 
@@ -70,9 +75,9 @@ public final class Constants {
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(21.5);
+    public static final double kTrackWidth = Units.inchesToMeters(22.5);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(21.5);
+    public static final double kWheelBase = Units.inchesToMeters(23.5);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(
@@ -87,7 +92,7 @@ public final class Constants {
     public static final double kBackLeftChassisAngularOffset = -Math.PI;
     public static final double kBackRightChassisAngularOffset = 0;
 
-    // SPARK MAX CAN IDs
+    // SPARK MAX CAN IDs. Do not mess with.
     public static final int kFrontLeftDrivingCanId = 4;
     public static final int kRearLeftDrivingCanId = 1;
     public static final int kFrontRightDrivingCanId = 5;
@@ -119,6 +124,7 @@ public final class Constants {
         (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
   }
 
+  // Nothing to mess with here.
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.1;

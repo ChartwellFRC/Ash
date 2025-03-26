@@ -196,10 +196,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Algae/Intake/Applied Output", intakeMotor.getAppliedOutput());
 
     // Update mechanism2d
-    intakePivotMechanism.setAngle(
-        Units.radiansToDegrees(SimulationRobotConstants.kIntakeMinAngleRads)
-            + Units.rotationsToDegrees(
-                armEncoder.getPosition() / SimulationRobotConstants.kIntakeReduction));
+    // intakePivotMechanism.setAngle(
+    //     Units.radiansToDegrees(SimulationRobotConstants.kIntakeMinAngleRads)
+    //         + Units.rotationsToDegrees(
+    //             armEncoder.getPosition() / SimulationRobotConstants.kIntakeReduction));
   }
 
   /** Get the current drawn by each simulation physics model */
@@ -209,18 +209,18 @@ public class AlgaeSubsystem extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-    m_intakeSim.setInput(armMotorSim.getAppliedOutput() * RobotController.getBatteryVoltage());
+    // // This method will be called once per scheduler run during simulation
+    // m_intakeSim.setInput(armMotorSim.getAppliedOutput() * RobotController.getBatteryVoltage());
 
-    // Next, we update it. The standard loop time is 20ms.
-    m_intakeSim.update(0.020);
+    // // Next, we update it. The standard loop time is 20ms.
+    // m_intakeSim.update(0.020);
 
-    // Iterate the arm SPARK simulation
-    armMotorSim.iterate(
-        Units.radiansPerSecondToRotationsPerMinute(
-            m_intakeSim.getVelocityRadPerSec() * SimulationRobotConstants.kArmReduction),
-        RobotController.getBatteryVoltage(),
-        0.02);
+    // // Iterate the arm SPARK simulation
+    // armMotorSim.iterate(
+    //     Units.radiansPerSecondToRotationsPerMinute(
+    //         m_intakeSim.getVelocityRadPerSec() * SimulationRobotConstants.kArmReduction),
+    //     RobotController.getBatteryVoltage(),
+    //     0.02);
 
     // SimBattery is updated in Robot.java
   }
